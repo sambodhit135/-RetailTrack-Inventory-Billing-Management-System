@@ -204,13 +204,15 @@ To run tests:
 
 ## 📸 Screenshots
 
-Below are snapshots demonstrating the system's live features:
+### 🖥️ Admin Dashboard — Live Analytics
+> Real-time revenue tracking, low stock alerts, top products donut chart, and live revenue trend line — all pulling from the Spring Boot API.
 
-- **Interactive Dashboard**:
-  ![Dashboard](docs/screenshots/dashboard.png)
+![RetailTrack Dashboard](docs/screenshots/dashboard.png)
 
-- **Inventory Catalog Management**:
-  ![Inventory Catalog](docs/screenshots/inventory.png)
+### 📦 Inventory Catalog — Stock Management
+> Live inventory table with smart status badges (In Stock / Low Stock / Out of Stock), reorder threshold display, and one-click Smart Reorder Engine trigger.
+
+![RetailTrack Inventory](docs/screenshots/inventory.png)
 
 ## 👨‍💻 Author
 
