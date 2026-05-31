@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RetailTrack Admin Portal</title>
+  <!-- Google Fonts: Outfit & Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <i class="fa-solid fa-chart-pie me-2"></i>
+        <span>RetailTrack Admin Portal</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link active d-flex align-items-center gap-2">
+              <span class="status-indicator"></span>
+              Live Monitoring Active
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Body Container -->
+  <div class="container-fluid p-4">
+    
+    <!-- Top Rows (Key Metric Cards) -->
+    <div class="row g-4 mb-4">
+      <!-- Metric Card 1: Total Sales -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="glass-card p-4 d-flex align-items-center gap-3">
+          <div class="metric-icon">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+          </div>
+          <div>
+            <div class="text-muted small fw-semibold uppercase mb-1">Total Sales</div>
+            <div class="metric-value" id="totalSalesVal">₹0.00</div>
+            <div class="text-success small"><i class="fa-solid fa-arrow-trend-up me-1"></i>Gross Revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Card 2: Active Products -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="glass-card p-4 d-flex align-items-center gap-3">
+          <div class="metric-icon">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+          <div>
+            <div class="text-muted small fw-semibold uppercase mb-1">Active Products</div>
+            <div class="metric-value" id="activeProductsVal">0</div>
+            <div class="text-info small"><i class="fa-solid fa-folder me-1"></i>Catalog Items</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Card 3: Low Stock Alerts -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="glass-card p-4 d-flex align-items-center gap-3">
+          <div class="metric-icon">
+            <i class="fa-solid fa-triangle-exclamation" style="color: var(--status-low-stock);"></i>
+          </div>
+          <div>
+            <div class="text-muted small fw-semibold uppercase mb-1">Low Stock Alerts</div>
+            <div class="metric-value" id="lowStockVal">0</div>
+            <div class="text-warning small" id="lowStockSub"><i class="fa-solid fa-circle-exclamation me-1"></i>Needs Attention</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Card 4: Total Orders -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="glass-card p-4 d-flex align-items-center gap-3">
+          <div class="metric-icon">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <div>
+            <div class="text-muted small fw-semibold uppercase mb-1">Total Orders</div>
+            <div class="metric-value" id="totalOrdersVal">0</div>
+            <div class="text-purple small"><i class="fa-solid fa-circle-check me-1"></i>Checkouts Saved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Rows (Analytics Layout) -->
+    <div class="row g-4 mb-4">
+      <!-- Left Column Card: Revenue Trends -->
+      <div class="col-12 col-lg-8">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0"><i class="fa-solid fa-chart-line me-2 text-indigo"></i>Revenue Trends</h5>
+            <span class="chart-badge" id="revenueChartType">Demo Data</span>
+          </div>
+          <div style="position: relative; height: 350px;">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column Card: Top Selling Products -->
+      <div class="col-12 col-lg-4">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0"><i class="fa-solid fa-chart-pie me-2 text-purple"></i>Top Products</h5>
+            <span class="chart-badge" id="topProductsChartType">Demo Data</span>
+          </div>
+          <div style="position: relative; height: 350px;">
+            <canvas id="topProductsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row (Inventory Management Card) -->
+    <div class="row">
+      <div class="col-12">
+        <div class="glass-card p-4 mb-4">
+          
+          <!-- Section Header and Action Buttons -->
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+            <div class="d-flex align-items-center gap-2">
+              <h5 class="mb-0"><i class="fa-solid fa-warehouse me-2 text-cyan"></i>Inventory Catalog</h5>
+              <span class="badge bg-secondary rounded-pill" id="tableCountBadge">0</span>
+            </div>
+            
+            <div class="d-flex flex-wrap align-items-center gap-3">
+              <!-- Search Bar -->
+              <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text bg-transparent border-end-0 text-muted" style="border-color: var(--card-border);">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="catalogSearch" class="form-control custom-input border-start-0 ps-0" placeholder="Search product name or category...">
+              </div>
+              
+              <!-- Add Product Button -->
+              <button class="btn btn-gradient" id="btnAddProduct" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <i class="fa-solid fa-plus me-2"></i>+ Add Product
+              </button>
+
+              <!-- Smart Reorder Button -->
+              <button class="btn btn-gradient" id="btnSmartReorder">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Trigger Smart Reorder
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Catalog Data Table -->
+          <div class="table-responsive">
+            <table class="table custom-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock Level</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody">
+                <tr>
+                  <td colspan="7" class="text-center py-5 text-muted">
+                    <div class="spinner-border spinner-border-sm text-indigo me-2" role="status"></div>
+                    Loading inventory records...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal 1: Audit Log Details -->
+  <div class="modal fade" id="auditLogModal" tabindex="-1" aria-labelledby="auditLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="auditLogModalLabel"><i class="fa-solid fa-clock-rotate-left me-2 text-indigo"></i>Stock Audit Trail</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <span class="text-muted">Product: </span><span id="auditProductName" class="fw-semibold"></span>
+            <span class="text-muted ms-3">ID: </span><span id="auditProductId" class="fw-semibold"></span>
+          </div>
+          <div id="auditLogContent" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
+            <!-- Timeline will be injected here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Simple Table Stock Audit Trail -->
+  <div class="modal fade" id="auditModal" tabindex="-1" aria-labelledby="auditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="auditModalLabel"><i class="fa-solid fa-clipboard-list me-2 text-indigo"></i>Product Stock Ledger</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <span class="text-muted">Product: </span><span id="simpleAuditProductName" class="fw-semibold"></span>
+            <span class="text-muted ms-3">ID: </span><span id="simpleAuditProductId" class="fw-semibold"></span>
+          </div>
+          <div style="max-height: 400px; overflow-y: auto;">
+            <table class="table custom-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Event Type</th>
+                  <th>Quantity Changed</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="simpleAuditTableBody">
+                <!-- Audit records will be injected here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Stock Adjustment Form -->
+  <div class="modal fade" id="adjustStockModal" tabindex="-1" aria-labelledby="adjustStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adjustStockModalLabel"><i class="fa-solid fa-plus-minus me-2 text-indigo"></i>Adjust Stock Level</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="adjustStockForm">
+          <div class="modal-body">
+            <input type="hidden" id="adjustProductId">
+            <div class="mb-3">
+              <label class="form-label">Product Name</label>
+              <input type="text" id="adjustProductName" class="form-control custom-input w-100" readonly style="opacity: 0.7;">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Current Stock</label>
+              <input type="text" id="adjustCurrentStock" class="form-control custom-input w-100" readonly style="opacity: 0.7;">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="adjustQuantityChange">Stock Adjustment Quantity</label>
+              <input type="number" id="adjustQuantityChange" class="form-control custom-input w-100" placeholder="e.g. 50 to add, -20 to subtract" required>
+              <div class="form-text text-muted">Use positive values to restock and negative values to register shrink/usage.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="adjustRemarks">Remarks / Notes</label>
+              <textarea id="adjustRemarks" class="form-control custom-input w-100" rows="3" placeholder="Identify reason e.g. Monthly stock audit count, manual restock..." required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-gradient" id="btnSubmitStockAdjust">
+              <i class="fa-solid fa-check me-1"></i> Apply Adjustment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add New Product Form -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addProductModalLabel"><i class="fa-solid fa-plus me-2 text-indigo"></i>Add New Product</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="addProductForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label" for="addProductName">Product Name</label>
+              <input type="text" id="addProductName" class="form-control custom-input w-100" placeholder="e.g. Wireless Mouse" required maxlength="200">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="addProductDescription">Description</label>
+              <textarea id="addProductDescription" class="form-control custom-input w-100" rows="3" placeholder="Enter product description..."></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="addProductPrice">Price (₹)</label>
+                <input type="number" id="addProductPrice" class="form-control custom-input w-100" step="0.01" min="0.01" placeholder="0.00" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label" for="addProductCategory">Category</label>
+                <select id="addProductCategory" class="form-select custom-input w-100" required>
+                  <option value="" disabled selected>Select Category</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label" for="addProductStock">Initial Stock</label>
+                <input type="number" id="addProductStock" class="form-control custom-input w-100" min="0" placeholder="0" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label" for="addProductThreshold">Reorder Min</label>
+                <input type="number" id="addProductThreshold" class="form-control custom-input w-100" min="0" placeholder="10" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label" for="addProductDailySales">Avg Sales/Day</label>
+                <input type="number" id="addProductDailySales" class="form-control custom-input w-100" step="0.1" min="0" placeholder="0.0" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-gradient" id="btnSubmitAddProduct">
+              <i class="fa-solid fa-check me-1"></i> Add Product
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle & Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Frontend Logic Script -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

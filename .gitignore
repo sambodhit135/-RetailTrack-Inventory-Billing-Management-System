@@ -1,0 +1,37 @@
+# Maven target directory
+target/
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Log files
+*.log
+logs/
+temp/
+
+# IDE/Tooling configurations
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+bin/
+
+# Sensitive application properties containing credentials
+**/application.properties
+application.properties
+
+# Operating System specific files
+Thumbs.db
+.DS_Store
+desktop.ini
